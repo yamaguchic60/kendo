@@ -17,10 +17,12 @@ robot_controller.initialize_position()
 while 1:
     print(tracker.track_when_it_called())#return red position
     try:
-        robot_controller.run_when_it_is_called()#control robot
+        print('hello')#debug
+        # robot_controller.run_when_it_is_called()#control robot
     except KeyboardInterrupt:
         break
 
+#finish
+print("Stopping the RTDE interface.")
 robot_controller.cleanup()
-
 tracker.release_resources()

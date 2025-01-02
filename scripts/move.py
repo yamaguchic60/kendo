@@ -72,7 +72,7 @@ class RobotController:
             pass
         finally:
             self.cleanup()
-    def run_when_it_is_called(self):
+    def test_run_when_it_is_called(self):
         # 現在のジョイント位置を取得
         current_joint_positions = self.rtde_r.getActualQ()
 
@@ -101,6 +101,30 @@ class RobotController:
         for i in range(len(current_joint_positions)):
             print(f'Joint {i}: {current_joint_positions[i]}')
 
+    def run_when_it_is_called(self, target_pose):
+        """
+        逆運動学を利用してロボットを目標位置に移動させるメソッド。
+        :param target_pose: [x, y, z, rx, ry, rz] の形式の目標ポーズ（ロボットのエンドエフェクタ位置と回転）。
+        """
+        try:
+            # 現在のエンドエフェクタ位置を取得
+            current_pose = self.rtde_r.getActualTCPPose()
+            print(f"Current TCP Pose: {current_pose}")
+
+            # 目標ポーズを受け取り、逆運動学を計算
+            joint_positions = self.rtde_c.getInverseKinematics(target_pose)
+            if joint_positions:
+                print(f"Calculated Joint Positions: {joint_positions}")
+                # 計算されたジョイント位置に移動
+                self.rtde_c.moveJ(joint_positions, self.acceleration, self.time_duration)
+            else:
+                print("Inverse Kinematics calculation failed.")
+        except Exception as e:
+            print(f"Error in run_when_it_is_called: {e}")
+
+
+
+
 
     def cleanup(self):
         print("Stopping the RTDE interface.")
@@ -116,4 +140,9 @@ if __name__ == "__main__":
     robot_controller.initialize_position()
 
     # 制御ループを実行
-    robot_controller.run()
+    while 1:        
+        try:
+            robot_controller.run_when_it_is_called()
+        except KeyboardInterrupt:
+            break
+    robot_controller.cleanup()
