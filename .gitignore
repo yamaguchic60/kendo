@@ -1,0 +1,5 @@
+# Ignore __pycache__ directories only in the scripts directory
+scripts/__pycache__/
+
+# Ignore all .pyc files only in the scripts directory
+*.pyc
