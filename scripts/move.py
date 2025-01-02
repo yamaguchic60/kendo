@@ -105,15 +105,16 @@ class RobotController:
         #default values
         L1=0.30#_sword_length=0.30
         L2=0.55#_link_length=0.55
-        x=-target_position[0]
-        y=target_position[1]
+        y=target_position[0]
+        z=target_position[1]
         #inverse kinematics
         # 距離を計算
-        d = math.sqrt(x**2 + y**2)
+        d = math.sqrt(y**2 + z**2)
     
         # 目標位置が到達可能かチェック
         if d > (L1 + L2) or d < abs(L1 - L2):
             print("Target is unreachable.")
+            self.rtde_c.moveJ([0.0, -math.pi / 2+math.atan2(z,y), 0.0, -math.pi / 2, 0.0, math.pi / 2])
             return None
         
         # コサイン法則で theta2(end_effector angular) を計算
@@ -123,9 +124,9 @@ class RobotController:
         # theta1(base angular) を計算
         k1 = L1 + L2 * math.cos(theta2)
         k2 = L2 * math.sin(theta2)
-        theta1 = math.atan2(y, x) - math.atan2(k2, k1)
+        theta1 = math.atan2(z, y) - math.atan2(k2, k1)
 
-        theta=math.atan2(target_position[1],target_position[0])
+        theta=math.atan2(z,y)
         joint_angle = [0.0, -math.pi / 2+theta1, 0.0, -math.pi / 2, 0.0, theta2]
         print(theta1,theta2)
         self.rtde_c.moveJ(joint_angle)

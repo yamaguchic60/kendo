@@ -34,6 +34,7 @@ from trajectory import (
 #         previous_time=time.time()
 
 def func1(output_queue):
+    time.sleep(5)#waiting for initializing robot position
     #default value
     max_qsize = 1
     # 1. 軌跡データを生成
@@ -94,7 +95,7 @@ def func2(input_queue):
             # print(f"func2 consumed: {data}")
             y,z = data
             print(y,z)
-            target_position = [0.4+y/100,0.3+z/100]#YOU can change this value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            target_position = [0.4+y/10,0.3+z/10]#YOU can change this value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             print(f'y,z:{y,z}')
             robot_controller.run_when_it_is_called(target_position)#control robot
         except queue.Empty:
@@ -102,6 +103,7 @@ def func2(input_queue):
             continue
 
 def main():
+
     # スレッド間でデータを共有するキュー
     shared_queue = queue.Queue()
 
