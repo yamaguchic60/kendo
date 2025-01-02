@@ -29,7 +29,7 @@ def func2(input_queue):
     while True:
         try:
             # キューからデータを取得
-            data = input_queue.get(timeout=0.1)  # 10ms待機
+            data = input_queue.get() 
             # print(f"func2 consumed: {data}")
             y,z = data
             target_position = [0.4+y/10000,0.3+z/10000]#YOU can change this value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
