@@ -127,9 +127,8 @@ class CameraTracker:
                     cv2.circle(frame, (cx, cy), 5, (0, 0, 255), -1)
                     cv2.putText(frame, f'Center: ({cx}, {cy})', (cx + 10, cy - 10), 
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-                    print(f'Center: ({cx}, {cy})')
-                    print(f'Center velocity: ({(cx - self.previous_cx) * 1000 / self.frequency}, '
-                            f'{(cy - self.previous_cy) * 1000 / self.frequency})')
+                    # print(f'Center: ({cx}, {cy})')
+                    # print(f'Center velocity: ({(cx - self.previous_cx) * 1000 / self.frequency}, 'f'{(cy - self.previous_cy) * 1000 / self.frequency})')
                     self.previous_cx, self.previous_cy = cx, cy
 
         cv2.drawContours(frame, contours, -1, (0, 255, 0), 2)

@@ -1,27 +1,43 @@
 import threading
 import time
 import queue
+from detection import CameraTracker
+from move import RobotController
+import time
 
 def func1(output_queue):
+    # from detection
+    tracker = CameraTracker()
+    tracker.find_camera_device()
+    tracker.setup_camera()
+    start_time=time.time()
+    previous_time=start_time
     """1000Hzで動作し、結果をキューに送る関数"""
     while True:
-        result = time.time()  # 例として現在の時刻を返す
-        print(f"func1 produced: {result}")
-        output_queue.put(result)  # 結果をキューに追加
-        time.sleep(0.001)  # 1000Hz (1msごと)
+        y,z,_1,_2 = y,z,_1,_2=tracker.track_when_it_called()#return red position
+        # print(f"func1 produced: {y,z}")
+        output_queue.put((y,z))  # 結果をキューに追加
+        #print delay
+        # print(f'func1 delay:{1000*(time.time()-previous_time)}ms')
+        previous_time=time.time()
 
 def func2(input_queue):
-    """100Hzで動作し、func1の返り値を処理する関数"""
+    # from move
+    robot_controller = RobotController(robot_num=3)
+    robot_controller.initialize_position()
+    """10Hzで動作し、func1の返り値を処理する関数"""
     while True:
         try:
             # キューからデータを取得
-            data = input_queue.get(timeout=0.01)  # 10ms待機
-            print(f"func2 consumed: {data}")
-            # データの処理
+            data = input_queue.get(timeout=0.1)  # 10ms待機
+            # print(f"func2 consumed: {data}")
+            y,z = data
+            target_position = [0.4+y/10000,0.3+z/10000]#YOU can change this value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            print(y,z)
+            robot_controller.run_when_it_is_called(target_position)#control robot
         except queue.Empty:
             # キューが空の場合はスキップ
             continue
-        time.sleep(0.01)  # 100Hz (10msごと)
 
 def main():
     # スレッド間でデータを共有するキュー
