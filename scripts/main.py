@@ -5,12 +5,13 @@ from detection import CameraTracker
 from move import RobotController
 import time
 import matplotlib.pyplot as plt
+from get import start_udp_thread, get_position
 from trajectory import (
     point_generation,
     setup_plot,
     update_plot,
     mo_x, mo_y, mo_z,  # 軌跡リスト（必要なら参照する）
-    get_position       # データ取得関数（StopIteration を検知したい場合など）
+    # get_position       # データ取得関数（StopIteration を検知したい場合など）
 )
 
 # def func1(output_queue):
