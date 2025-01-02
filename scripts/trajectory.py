@@ -2,13 +2,14 @@ import numpy as np
 from scipy.linalg import svd
 from scipy.optimize import fsolve
 import matplotlib.pyplot as plt
+from collections import deque
 
 # ---------------------
 # グローバル設定
 # ---------------------
-mo_x = []
-mo_y = []
-mo_z = []
+mo_x = deque(maxlen=100)
+mo_y = deque(maxlen=100)
+mo_z = deque(maxlen=100)
 
 # 点群（最初に生成して使い回す）
 generated_points = []
