@@ -48,7 +48,7 @@ def display_coordinates(skip_rate=10):
 
 
 if __name__ == "__main__":
-    HOST = '10.1.196.100'
+    HOST = '10.216.71.90'
     PORT = 50006
 
     # UDP受信スレッドを起動

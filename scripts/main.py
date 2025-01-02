@@ -36,7 +36,7 @@ from trajectory import (
 
 def func1(output_queue):
     time.sleep(5)#waiting for initializing robot position
-    start_udp_thread(host='10.1.196.100', port=50006)
+    start_udp_thread(host='10.216.71.90', port=50006)
     #default value
     max_qsize = 1
     # 1. 軌跡データを生成
@@ -89,16 +89,23 @@ def func2(input_queue):
     robot_controller = RobotController(robot_num=3)
     robot_controller.initialize_position()
     """10Hzで動作し、func1の返り値を処理する関数"""
+    _waiting_for_collecting_sword_point_data=10
+    cnt=0
     while True:
         try:
             # print(f'input_queue.qsize():{input_queue.qsize()}')
             # キューからデータを取得
             data = input_queue.get() 
             # print(f"func2 consumed: {data}")
-            y,z = data
+            previous_y,previous_z = data
+            y,z=-previous_z,previous_y
+            z+=0.5
             print(y,z)
-            target_position = [0.4+y/10,0.3+z/10]#YOU can change this value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            print(f'y,z:{y,z}')
+            target_position = [y,z]#YOU can change this value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            print(f'real_world y,z:{y,z}')
+            cnt+=1
+            if cnt<_waiting_for_collecting_sword_point_data:
+                continue
             robot_controller.run_when_it_is_called(target_position)#control robot
         except queue.Empty:
             # キューが空の場合はスキップ

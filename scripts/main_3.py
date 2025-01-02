@@ -3,7 +3,7 @@ from get import start_udp_thread, get_position
 
 def main():
     # まずUDP受信スレッドを起動
-    start_udp_thread(host='10.1.196.100', port=50006)
+    start_udp_thread(host='10.216.71.90', port=50006)
     
     time_step = 0
     while True:

@@ -27,7 +27,7 @@ def udp_receiver(host, port):
         except struct.error:
             print("[get.py] デコードエラーが発生しました。")
 
-def start_udp_thread(host='10.1.196.100', port=50006):
+def start_udp_thread(host='10.216.71.90', port=50006):
     """
     UDP受信スレッドを起動する関数。
     メインコードで呼び出すことで、バックグラウンドで受信を開始する。
