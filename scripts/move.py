@@ -105,7 +105,7 @@ class RobotController:
         #default values
         L1=0.30#_sword_length=0.30
         L2=0.55#_link_length=0.55
-        x=target_position[0]
+        x=-target_position[0]
         y=target_position[1]
         #inverse kinematics
         # 距離を計算

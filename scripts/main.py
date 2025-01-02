@@ -15,11 +15,13 @@ robot_controller.initialize_position()
 
 #loop
 while 1:
-    print(tracker.track_when_it_called())#return red position
+    x,y,_1,_2=tracker.track_when_it_called()#return red position
     try:
 
-        target_position = [0.4,0.3]
-        robot_controller.run_when_it_is_called([target_position])#control robot
+        target_position = [0.4+x/10000,0.3+y/10000]
+        print(x,y)
+        robot_controller.run_when_it_is_called(target_position)#control robot
+
     except KeyboardInterrupt:
         break
 
