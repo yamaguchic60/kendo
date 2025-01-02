@@ -17,8 +17,9 @@ robot_controller.initialize_position()
 while 1:
     print(tracker.track_when_it_called())#return red position
     try:
-        print('hello')#debug
-        # robot_controller.run_when_it_is_called()#control robot
+
+        target_position = [0.4,0.3]
+        robot_controller.run_when_it_is_called([target_position])#control robot
     except KeyboardInterrupt:
         break
 
