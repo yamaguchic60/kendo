@@ -18,7 +18,7 @@ while 1:
     x,y,_1,_2=tracker.track_when_it_called()#return red position
     try:
 
-        target_position = [0.4+x/10000,0.3+y/10000]
+        target_position = [0.4+x/10000,0.3+y/10000]#YAMABATA can change this value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         print(x,y)
         robot_controller.run_when_it_is_called(target_position)#control robot
 
