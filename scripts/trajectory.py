@@ -112,9 +112,9 @@ def setup_plot():
 
     # 左: 3Dプロット
     ax_3d = fig.add_subplot(121, projection="3d")
-    ax_3d.set_xlim(0, 5)
-    ax_3d.set_ylim(0, 5)
-    ax_3d.set_zlim(0, 10)
+    ax_3d.set_xlim(-1, 3)
+    ax_3d.set_ylim(-4, 4)
+    ax_3d.set_zlim(-4, -4)
     ax_3d.set_xlabel("X")
     ax_3d.set_ylabel("Y")
     ax_3d.set_zlabel("Z")
@@ -130,9 +130,9 @@ def setup_plot():
     ax_3d.legend()
 
     # x=xr の面を可視化
-    Y, Z = np.meshgrid(np.linspace(0, 5, 11), np.linspace(0, 10, 11))
-    X = np.array([xr] * Y.shape[0])
-    ax_3d.plot_surface(X, Y, Z, alpha=0.3)
+    # Y, Z = np.meshgrid(np.linspace(0, 5, 11), np.linspace(0, 10, 11))
+    # X = np.array([xr] * Y.shape[0])
+    # ax_3d.plot_surface(X, Y, Z, alpha=0.3)
 
     # 右: 2Dプロット (s-t 平面)
     ax_2d = fig.add_subplot(122)
@@ -210,7 +210,7 @@ def update_plot(x_in, y_in, z_in, frame,
     z_mp = centroid[2] + s_sol*basis_s[2] + t_sol*basis_t[2]
 
     # 解が x=3±0.1 に入っていなければ前回の値を使う
-    if 2.9 < x_mp < 3.1:
+    if -0.1 < x_mp < 0.1:
         verified_x_mp = x_mp
         verified_y_mp = y_mp
         verified_z_mp = z_mp
@@ -266,7 +266,8 @@ def update_plot(x_in, y_in, z_in, frame,
     meet_point_text.set_text(f"Meet: {verified_x_mp:.3f}, {verified_y_mp:.3f}, {verified_z_mp:.3f}")
 
     # 動作確認用にprint
-    print(f"[Frame={frame}] ConicEq: {eq_str}")
+    # print(f"[Frame={frame}] ConicEq: {eq_str}")
     print(f"  => MeetPoint=({verified_x_mp:.3f}, {verified_y_mp:.3f}, {verified_z_mp:.3f})")
+    print(f"x_in: {x_in:.3f}, y_in: {y_in:.3f}, z_in: {z_in:.3f}")
     
     return verified_x_mp, verified_y_mp, verified_z_mp

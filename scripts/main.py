@@ -98,7 +98,7 @@ def func2(input_queue):
             data = input_queue.get() 
             # print(f"func2 consumed: {data}")
             previous_y,previous_z = data
-            y,z=-previous_z,previous_y
+            y,z=-previous_z,-previous_y
             z+=0.5
             print(y,z)
             target_position = [y,z]#YOU can change this value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
