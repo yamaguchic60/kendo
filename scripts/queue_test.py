@@ -12,11 +12,15 @@ def func1(output_queue):
     tracker.setup_camera()
     start_time=time.time()
     previous_time=start_time
+    #default value
+    max_qsize = 1
     """1000Hzで動作し、結果をキューに送る関数"""
     while True:
         y,z,_1,_2 = y,z,_1,_2=tracker.track_when_it_called()#return red position
         # print(f"func1 produced: {y,z}")
-        output_queue.put((y,z))  # 結果をキューに追加
+        print(f"output_queue.qsize():{output_queue.qsize()}")
+        if output_queue.qsize() < max_qsize:
+            output_queue.put((y,z))  # 結果をキューに追加
         #print delay
         # print(f'func1 delay:{1000*(time.time()-previous_time)}ms')
         previous_time=time.time()
@@ -28,6 +32,7 @@ def func2(input_queue):
     """10Hzで動作し、func1の返り値を処理する関数"""
     while True:
         try:
+            # print(f'input_queue.qsize():{input_queue.qsize()}')
             # キューからデータを取得
             data = input_queue.get() 
             # print(f"func2 consumed: {data}")
