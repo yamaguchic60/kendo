@@ -35,11 +35,12 @@ from trajectory import (
 
 def func1(output_queue):
     time.sleep(5)#waiting for initializing robot position
+    start_udp_thread(host='10.1.196.100', port=50006)
     #default value
     max_qsize = 1
     # 1. 軌跡データを生成
     #  最終的には要らない
-    point_generation()
+    # point_generation()
 
     # 2. プロット初期化
     (fig, ax_3d, ax_2d,
@@ -54,7 +55,7 @@ def func1(output_queue):
         try:
             # (x,y,z) データを受け取る。
             # 最終的にはdetection.pyで行う処理
-            x_in, y_in, z_in = get_position(time_step)           
+            x_in, y_in, z_in = get_position(skip_rate=10, timeout=0.05)           
 
             # 目標点＋アニメーションの更新          
             target_x, target_y, target_z = update_plot(
