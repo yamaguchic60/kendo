@@ -68,4 +68,7 @@ def get_position(skip_rate=10, timeout=0.05):
         raise StopIteration
 
     x1, y1, z1, x2, y2, z2 = last_data
+    x1 = x1 + 1.000
+    y1 = y1 - 0.666
+    z1 = z1 - 2.140
     return x1, y1, z1
