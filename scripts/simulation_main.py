@@ -68,7 +68,7 @@ def func1(output_queue):
             time_step += 1
 
             # Matplotlib の描画を手動で更新
-            plt.pause(0.01)
+            plt.pause(0.1)
             # print(f"func1 produced: {y,z}")
             print(f"output_queue.qsize():{output_queue.qsize()}")
             if output_queue.qsize() < max_qsize:

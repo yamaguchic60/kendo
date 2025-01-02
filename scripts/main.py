@@ -72,7 +72,7 @@ def func1(output_queue):
             # Matplotlib の描画を手動で更新
             plt.pause(0.01)
             # print(f"func1 produced: {y,z}")
-            print(f"output_queue.qsize():{output_queue.qsize()}")
+            # print(f"output_queue.qsize():{output_queue.qsize()}")
             if output_queue.qsize() < max_qsize:
                 output_queue.put((target_y,target_z))  # 結果をキューに追加
         except StopIteration:
@@ -99,7 +99,7 @@ def func2(input_queue):
             # print(f"func2 consumed: {data}")
             previous_y,previous_z = data
             y,z=-previous_z,-previous_y
-            z+=0.5
+            # z+=0.5
             print(y,z)
             target_position = [y,z]#YOU can change this value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             print(f'real_world y,z:{y,z}')

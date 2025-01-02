@@ -128,7 +128,7 @@ class RobotController:
 
         theta=math.atan2(z,y)
         joint_angle = [0.0, -math.pi / 2+theta1, 0.0, -math.pi / 2, 0.0, theta2]
-        print(theta1,theta2)
+        print(f'theta1(base angular),theta2(end effector angular):{theta1*180.0/math.pi,theta2*180.0/math.pi} degrees')
         self.rtde_c.moveJ(joint_angle)
     def inverse_kinematics(self, target_position):#this method is not used in this code
         """

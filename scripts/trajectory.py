@@ -15,15 +15,15 @@ mo_z = deque(maxlen=100)
 generated_points = []
 
 # 定数
-xr = 3.0  # x=xr
+xr = 0.0  # x=xr
 
 # s,t の前回の解を保持
 prev_s, prev_t = 0, 0
 
 # 直近の MeetPoint
-prev_x_mp = 3.0
-prev_y_mp = 1.0
-prev_z_mp = 1.0
+prev_x_mp = 0.0
+prev_y_mp = -0.4
+prev_z_mp = -0.4
 
 # ---------------------
 # 点生成＆取得まわり
@@ -47,13 +47,13 @@ def point_generation():
 
     generated_points = np.array([x_noisy, y_noisy, z_noisy]).T  # shape: (N, 3)
 
-def get_position(time_step):
-    """point_generationで生成された点を1つずつ返す"""
-    global generated_points
-    if time_step < len(generated_points):
-        return generated_points[time_step]  # (x, y, z)
-    else:
-        raise StopIteration("全ての点を取得しました")
+# def get_position(time_step):
+#     """point_generationで生成された点を1つずつ返す"""
+#     global generated_points
+#     if time_step < len(generated_points):
+#         return generated_points[time_step]  # (x, y, z)
+#     else:
+#         raise StopIteration("全ての点を取得しました")
 
 # ---------------------
 # Conicまわり
@@ -113,8 +113,8 @@ def setup_plot():
     # 左: 3Dプロット
     ax_3d = fig.add_subplot(121, projection="3d")
     ax_3d.set_xlim(-1, 3)
-    ax_3d.set_ylim(-4, 4)
-    ax_3d.set_zlim(-4, -4)
+    ax_3d.set_ylim(-2, 2)
+    ax_3d.set_zlim(-2, -2)
     ax_3d.set_xlabel("X")
     ax_3d.set_ylabel("Y")
     ax_3d.set_zlabel("Z")
@@ -136,8 +136,8 @@ def setup_plot():
 
     # 右: 2Dプロット (s-t 平面)
     ax_2d = fig.add_subplot(122)
-    ax_2d.set_xlim(-9, 9)
-    ax_2d.set_ylim(-9, 9)
+    ax_2d.set_xlim(-7, 7)
+    ax_2d.set_ylim(-7, 7)
     ax_2d.set_xlabel("s")
     ax_2d.set_ylabel("t")
     observed_points, = ax_2d.plot([], [], "go", label="Observed Points")
@@ -209,7 +209,7 @@ def update_plot(x_in, y_in, z_in, frame,
     y_mp = centroid[1] + s_sol*basis_s[1] + t_sol*basis_t[1]
     z_mp = centroid[2] + s_sol*basis_s[2] + t_sol*basis_t[2]
 
-    # 解が x=3±0.1 に入っていなければ前回の値を使う
+    # 解が x=±0.1 に入っていなければ前回の値を使う
     if -0.1 < x_mp < 0.1:
         verified_x_mp = x_mp
         verified_y_mp = y_mp
@@ -267,7 +267,8 @@ def update_plot(x_in, y_in, z_in, frame,
 
     # 動作確認用にprint
     # print(f"[Frame={frame}] ConicEq: {eq_str}")
-    print(f"  => MeetPoint=({verified_x_mp:.3f}, {verified_y_mp:.3f}, {verified_z_mp:.3f})")
     print(f"x_in: {x_in:.3f}, y_in: {y_in:.3f}, z_in: {z_in:.3f}")
+
+    print(f"  => MeetPoint=({verified_x_mp:.3f}, {verified_y_mp:.3f}, {verified_z_mp:.3f})")
     
     return verified_x_mp, verified_y_mp, verified_z_mp

@@ -23,7 +23,8 @@ def udp_receiver(host, port):
             decoded_data = struct.unpack('6d', data)  # 6つのdoubleをデコード
             DATA_QUEUE.put(decoded_data, timeout=0.1) # キューに追加
         except queue.Full:
-            print("[get.py] データキューが満杯です。データを破棄します。")
+            pass
+            # print("[get.py] データキューが満杯です。データを破棄します。")
         except struct.error:
             print("[get.py] デコードエラーが発生しました。")
 
