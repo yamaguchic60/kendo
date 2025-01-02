@@ -72,6 +72,35 @@ class RobotController:
             pass
         finally:
             self.cleanup()
+    def run_when_it_is_called(self):
+        # 現在のジョイント位置を取得
+        current_joint_positions = self.rtde_r.getActualQ()
+
+        # ランダムな速度を生成
+        joint_angular_velocity = [
+            random.uniform(-math.pi / 2, math.pi / 2) for _ in range(6)
+        ]
+
+        # 次の予測位置を計算
+        next_positions = [
+            current_joint_positions[i] + joint_angular_velocity[i] * self.time_duration
+            for i in range(6)
+        ]
+
+        # 動作範囲を超えないように調整
+        for i in range(6):
+            if next_positions[i] < self.joint_limits[i][0] or next_positions[i] > self.joint_limits[i][1]:
+                joint_angular_velocity[i] = 0.0  # 制限に達した場合、速度をゼロに設定
+
+        # 修正した速度でロボットを制御
+        print(f"Random joint velocities (adjusted): {joint_angular_velocity}")
+        print(f"Next positions (clamped): {next_positions}")
+        self.rtde_c.speedJ(joint_angular_velocity, self.acceleration, self.time_duration)
+
+        # 現在のジョイント位置を表示
+        for i in range(len(current_joint_positions)):
+            print(f'Joint {i}: {current_joint_positions[i]}')
+
 
     def cleanup(self):
         print("Stopping the RTDE interface.")
