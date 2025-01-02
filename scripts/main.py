@@ -14,6 +14,8 @@ from trajectory import (
     # get_position       # データ取得関数（StopIteration を検知したい場合など）
 )
 
+global flag=False
+
 # def func1(output_queue):
 #     # from detection
 #     tracker = CameraTracker()
@@ -56,8 +58,11 @@ def func1(output_queue):
         try:
             # (x,y,z) データを受け取る。
             # 最終的にはdetection.pyで行う処理
-            x_in, y_in, z_in = get_position(skip_rate=10, timeout=0.05)           
-
+            x_in, y_in, z_in = get_position(skip_rate=10, timeout=0.05)
+            if x_in<2.0:
+                flag=True           
+            else:
+                continue
             # 目標点＋アニメーションの更新          
             target_x, target_y, target_z = update_plot(
                 x_in, y_in, z_in,
@@ -89,9 +94,9 @@ def func2(input_queue):
     robot_controller = RobotController(robot_num=3)
     robot_controller.initialize_position()
     """10Hzで動作し、func1の返り値を処理する関数"""
-    _waiting_for_collecting_sword_point_data=10
+    # _waiting_for_collecting_sword_point_data=10
     cnt=0
-    while True:
+    while flag!=True:
         try:
             # print(f'input_queue.qsize():{input_queue.qsize()}')
             # キューからデータを取得
@@ -104,8 +109,8 @@ def func2(input_queue):
             target_position = [y,z]#YOU can change this value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             print(f'real_world y,z:{y,z}')
             cnt+=1
-            if cnt<_waiting_for_collecting_sword_point_data:
-                continue
+            # if cnt<_waiting_for_collecting_sword_point_data:
+            #     continue
             robot_controller.run_when_it_is_called(target_position)#control robot
         except queue.Empty:
             # キューが空の場合はスキップ
